@@ -15,7 +15,7 @@ parameterlist:
       nf_paramname: input_spectra_folder
       formplaceholder: Enter the path to data
       formvalue: ""
-      targettaskfolder: input_spectra
+      targettaskfolder: input_spectra_folder
       optional: false
       selectsinglefile: false
       folderunroll: true

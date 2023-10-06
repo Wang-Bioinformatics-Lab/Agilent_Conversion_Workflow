@@ -23,7 +23,7 @@ process renumberSpectra {
 }
 
 workflow {
-    data = Channel.fromPath(params.input_spectra_folder + "/**/*.mzML")
+    data = Channel.fromPath(params.input_spectra_folder + "/*.mzML")
     
     // Outputting Python
     renumberSpectra(data)
