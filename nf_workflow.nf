@@ -1,50 +1,30 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-params.input = "README.md"
+params.input_spectra_folder = ""
 
 TOOL_FOLDER = "$baseDir/bin"
 
-process processDataPython {
+process renumberSpectra {
     publishDir "./nf_output", mode: 'copy'
 
     conda "$TOOL_FOLDER/conda_env.yml"
 
     input:
-    file input 
+    file input_mzML 
 
     output:
-    file 'python_output.tsv'
+    file 'converted/*.mzML'
 
     """
-    python $TOOL_FOLDER/python_script.py $input python_output.tsv
-    """
-}
-
-process processDataR {
-    publishDir "./nf_output", mode: 'copy'
-
-    conda "$TOOL_FOLDER/conda_env_r.yml"
-
-    input:
-    file input 
-
-    output:
-    file 'R_output.txt'
-    file 'rpy2_output.txt'
-
-    """
-    Rscript  $TOOL_FOLDER/R_script.R
-    python $TOOL_FOLDER/rpy2_script.py
+    mkdir converted
+    python $TOOL_FOLDER/convert_agilent.py $input_mzML converted/$input_mzML
     """
 }
 
 workflow {
-    data = Channel.fromPath(params.input)
+    data = Channel.fromPath(params.input_spectra_folder + "/**/*.mzML")
     
     // Outputting Python
-    processDataPython(data)
-
-    // Outputting R
-    processDataR(data)
+    renumberSpectra(data)
 }
