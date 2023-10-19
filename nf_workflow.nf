@@ -18,7 +18,7 @@ process renumberSpectra {
 
     """
     mkdir converted
-    python $TOOL_FOLDER/convert_agilent.py $input_mzML converted/$input_mzML
+    python $TOOL_FOLDER/convert_agilent.py $input_mzML converted/$input_mzML --msconvert_bin $TOOL_FOLDER/msconvert
     """
 }
 

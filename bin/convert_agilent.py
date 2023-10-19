@@ -1,6 +1,10 @@
+import os
+import uuid
 import sys
 import argparse
 import pandas as pd
+from psims.mzml.writer import MzMLWriter
+import pymzml
 
 def convert_agilent(input_filename, output_filename, msconvert_bin):
     scan_current = 1
@@ -65,6 +69,9 @@ def convert_agilent(input_filename, output_filename, msconvert_bin):
     print(cmd)
     os.system(cmd)
 
+    # remove temp file
+    os.remove(temp_mzML)
+
 
 def main():
     parser = argparse.ArgumentParser(description='Test write out a file.')
@@ -74,7 +81,7 @@ def main():
 
     args = parser.parse_args()
 
-    convert_agilent(args.input_filename, args.output_filename, msconvert_bin)
+    convert_agilent(args.input_filename, args.output_filename, args.msconvert_bin)
 
 
 
